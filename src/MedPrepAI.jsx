@@ -7,18 +7,18 @@ import logoIcon from "./assets/logo-icon.png";
 
 // ── Design tokens (dark theme) ──────────────────────────────────
 const T = {
-  ink: "#FFFFFF",        // primary text (was near-black, now white on dark bg)
-  paper: "#020617",       // page background (was cream, now near-black navy)
-  surface: "#0B1220",     // alternating section background (slightly lighter than page bg)
-  teal: "#059669",        // primary actions / accent (sampled from CTA button)
-  tealDeep: "#047857",    // hover state for primary actions
-  gold: "#10B981",        // secondary accent (sampled from active carousel dot)
-  slate: "#99A2B0",       // muted/body text (sampled from subtext)
-  line: "#283246",        // borders/dividers, visible against dark bg
+  ink: "#FFFFFF",
+  paper: "#020617",
+  surface: "#0B1220",
+  teal: "#059669",
+  tealDeep: "#047857",
+  gold: "#10B981",
+  slate: "#99A2B0",
+  line: "#283246",
   radius: "14px",
 };
 
-// ── Logo badge — wraps the uploaded stethoscope artwork in a rounded badge ──
+// ── Logo badge ──────────────────────────────────────────────────
 function LogoBadge({ size = 34 }) {
   return (
     <div style={{
@@ -79,14 +79,20 @@ const Icon = {
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </svg>
   ),
+  menu: (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  ),
+  close: (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  ),
 };
 
-// ── Global nav tab state (lifted for cross-component sync) ─────
-// We use a simple module-level ref so navbar clicks can set the tab
-let _setActiveTab = null;
-
 // ── Shared Button component ────────────────────────────────────
-function Btn({ variant = "primary", size = "md", children, onClick, href, style }) {
+function Btn({ variant = "primary", size = "md", children, onClick, href, style, fullWidth }) {
   const [hovered, setHovered] = useState(false);
   const base = {
     display: "inline-flex", alignItems: "center", justifyContent: "center",
@@ -95,6 +101,7 @@ function Btn({ variant = "primary", size = "md", children, onClick, href, style 
     textDecoration: "none", fontFamily: "inherit",
     padding: size === "lg" ? "14px 28px" : "11px 22px",
     fontSize: size === "lg" ? "0.98rem" : "0.92rem",
+    width: fullWidth ? "100%" : "auto",
   };
   const variants = {
     primary: {
@@ -137,13 +144,14 @@ function SectionEyebrow({ children, center }) {
   );
 }
 
-// ── Feature item in horizontal strip ──────────────────────────
+// ── Feature item ───────────────────────────────────────────────
 function FeatItem({ icon, title, desc, last }) {
   const [hov, setHov] = useState(false);
   return (
     <div
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
+      className="feature-item"
       style={{
         padding: "26px 22px",
         background: hov ? "rgba(5,150,105,0.1)" : T.surface,
@@ -162,13 +170,13 @@ function FeatItem({ icon, title, desc, last }) {
 // ── Program Stat Grid ──────────────────────────────────────────
 function ProgramStats({ stats }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+    <div className="program-stats" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
       {stats.map(({ big, label }) => (
-        <div key={label} style={{
+        <div key={label} className="stat-item" style={{
           background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
           borderRadius: 10, padding: "22px 20px",
         }}>
-          <div style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "2rem", fontWeight: 500, color: T.gold, lineHeight: 1 }}>{big}</div>
+          <div className="stat-number" style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "2rem", fontWeight: 500, color: T.gold, lineHeight: 1 }}>{big}</div>
           <div style={{ fontSize: "0.82rem", color: "#9CB8AE", marginTop: 6 }}>{label}</div>
         </div>
       ))}
@@ -248,12 +256,11 @@ function ProgramTabs({ activeTab, setActiveTab }) {
 
   return (
     <section id="programs" ref={sectionRef} style={{ scrollMarginTop: 80 }}>
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
+      <div className="section-padding" style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
 
-        {/* Centred section header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <SectionEyebrow center>Examination Tracks</SectionEyebrow>
-          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 640 }}>
+          <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 640 }}>
             Focused Preparation for <span style={{ color: T.teal }}>Every Examination</span>
           </h2>
           <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
@@ -261,9 +268,8 @@ function ProgramTabs({ activeTab, setActiveTab }) {
           </p>
         </div>
 
-        {/* Tab switcher — centred, UWorld style */}
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 40 }}>
-          <div style={{ display: "flex", gap: 0, borderRadius: 10, overflow: "hidden", border: `1px solid ${T.line}` }}>
+        <div className="tab-switcher" style={{ display: "flex", justifyContent: "center", marginBottom: 40 }}>
+          <div style={{ display: "flex", gap: 0, borderRadius: 10, overflow: "hidden", border: `1px solid ${T.line}`, flexWrap: "wrap" }}>
             {TABS.map((t, i) => {
               const isActive = activeTab === t.id;
               return (
@@ -276,6 +282,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
                   cursor: "pointer", fontFamily: "inherit",
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
                   transition: "background .2s, color .2s",
+                  flex: "1 1 auto",
                 }}>
                   <span style={{ fontWeight: 700, fontSize: "1rem" }}>{t.label}</span>
                   <span style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "0.68rem", opacity: 0.75, letterSpacing: "0.03em" }}>{t.sub}</span>
@@ -285,8 +292,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
           </div>
         </div>
 
-        {/* Dark hero block */}
-        <div style={{ background: T.paper, border: `1px solid ${T.line}`, borderRadius: T.radius, padding: "64px 56px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+        <div className="program-tabs-hero" style={{ background: T.paper, border: `1px solid ${T.line}`, borderRadius: T.radius, padding: "64px 56px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
           <div>
             <span style={{
               display: "inline-flex", alignItems: "center", gap: 8,
@@ -306,7 +312,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
             <p style={{ color: "#B8C9C2", fontSize: "1.02rem", marginBottom: 32, lineHeight: 1.7 }}>
               {descriptions[activeTab]}
             </p>
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <div className="cta-buttons" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
               <Btn variant="gold" size="lg">{startLabels[activeTab]}</Btn>
               <Btn variant="ghostDark" size="lg">View Sample Questions</Btn>
             </div>
@@ -314,20 +320,20 @@ function ProgramTabs({ activeTab, setActiveTab }) {
           <ProgramStats stats={PROGRAM_STATS} />
         </div>
 
-        {/* Feature strip — boxed as its own component with heading */}
         <div style={{ marginTop: 56 }}>
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <SectionEyebrow center>Inside The Question Bank</SectionEyebrow>
-            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>
+            <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>
               What Makes Every Question <span style={{ color: T.teal }}>Count</span>
             </h2>
             <p style={{ color: T.slate, fontSize: "1rem", maxWidth: 520, margin: "0 auto" }}>
               Five pillars built into every {tab.label} question, from first attempt to final review.
             </p>
           </div>
-          <div style={{
+          <div className="feature-strip" style={{
             border: `1px solid ${T.line}`, borderRadius: T.radius, overflow: "hidden",
             display: "flex", background: T.surface, boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+            flexWrap: "wrap",
           }}>
             {FEATURES.map((f, i) => (
               <FeatItem
@@ -341,8 +347,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
           </div>
         </div>
 
-        {/* Analytics visual — supports the Performance Analytics pillar above */}
-        <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+        <div className="grid-2col" style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
           <div>
             <SectionEyebrow>Performance, Visualised</SectionEyebrow>
             <h3 style={{ fontFamily: "Fraunces, serif", fontSize: "1.8rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
@@ -375,23 +380,23 @@ function FAQ() {
   const [open, setOpen] = useState(0);
   return (
     <section id="faq" style={{ scrollMarginTop: 80 }}>
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
+      <div className="section-padding" style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <SectionEyebrow center>Frequently Asked Questions</SectionEyebrow>
-          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px" }}>Common <span style={{ color: T.teal }}>Questions</span></h2>
+          <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px" }}>Common <span style={{ color: T.teal }}>Questions</span></h2>
           <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 500, margin: "0 auto" }}>
             Answers to the questions most frequently asked by candidates before beginning their preparation.
           </p>
         </div>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           {FAQ_DATA.map((item, i) => (
-            <div key={i} style={{ borderBottom: `1px solid ${T.line}`, borderTop: i === 0 ? `1px solid ${T.line}` : "none" }}>
+            <div key={i} className="faq-item" style={{ borderBottom: `1px solid ${T.line}`, borderTop: i === 0 ? `1px solid ${T.line}` : "none" }}>
               <button onClick={() => setOpen(open === i ? -1 : i)} style={{
                 width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer",
                 padding: "22px 4px", display: "flex", justifyContent: "space-between", alignItems: "center",
                 fontFamily: "Fraunces, serif", fontSize: "1.08rem", fontWeight: 500, color: T.ink,
               }}>
-                <span>{item.q}</span>
+                <span className="faq-question">{item.q}</span>
                 <span style={{
                   fontFamily: "IBM Plex Mono, monospace", fontSize: "1.2rem", color: T.teal,
                   transition: "transform .2s", display: "inline-block",
@@ -412,16 +417,105 @@ function FAQ() {
   );
 }
 
+// ── Pillar Card ──────────────────────────────────────────────────
+function PillarCard({ iconPaths, accent, accentBg, title, body }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      className="pillar-card"
+      style={{
+        background: T.surface,
+        border: `1px solid ${hov ? accent : T.line}`,
+        borderRadius: T.radius,
+        padding: "32px 28px",
+        cursor: "default",
+        transition: "border-color .2s, box-shadow .2s, transform .2s",
+        transform: hov ? "translateY(-4px)" : "none",
+        boxShadow: hov ? `0 8px 24px rgba(0,0,0,0.35)` : "none",
+      }}>
+      <div style={{
+        width: 48, height: 48, borderRadius: 10,
+        background: hov ? accentBg : "rgba(255,255,255,0.06)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        marginBottom: 18, transition: "background .2s",
+      }}>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+          stroke={hov ? accent : T.slate} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {iconPaths}
+        </svg>
+      </div>
+      <div style={{ width: hov ? 48 : 32, height: 3, background: hov ? accent : T.line, borderRadius: 2, marginBottom: 14, transition: "background .2s, width .2s" }} />
+      <h3 style={{ fontFamily: "Fraunces, serif", fontSize: "1.08rem", fontWeight: 600, marginBottom: 10, color: T.ink }}>{title}</h3>
+      <p style={{ fontSize: "0.9rem", color: T.slate, lineHeight: 1.65 }}>{body}</p>
+    </div>
+  );
+}
+
+// ── Testimonial Card ────────────────────────────────────────────
+function TestimonialCard({ text, name, role }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        background: hov ? "#101A2E" : T.surface,
+        border: `1px solid ${hov ? T.teal : T.line}`,
+        borderRadius: T.radius, padding: "30px 28px",
+        display: "flex", flexDirection: "column", gap: 18,
+        transition: "all .2s",
+        transform: hov ? "translateY(-3px)" : "none",
+        boxShadow: hov ? `0 6px 20px rgba(0,0,0,0.4)` : "none",
+        cursor: "default",
+      }}>
+      <div style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", color: T.teal, lineHeight: 1 }}>"</div>
+      <p style={{ fontSize: "0.98rem", color: T.ink, flex: 1, lineHeight: 1.7 }}>{text}</p>
+      <div style={{ borderTop: `1px solid ${T.line}`, paddingTop: 14 }}>
+        <div style={{ fontWeight: 600, fontSize: "0.92rem" }}>{name}</div>
+        <div style={{ fontSize: "0.82rem", color: T.slate, marginTop: 2 }}>{role}</div>
+      </div>
+    </div>
+  );
+}
+
+// ── NavLink ────────────────────────────────────────────────────
+function NavLink({ href, children, onClick }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <a href={href} onClick={onClick} style={{ 
+      color: hov ? T.ink : T.slate, 
+      textDecoration: "none", 
+      fontSize: "0.92rem", 
+      transition: "color .15s",
+      cursor: "pointer",
+      padding: "4px 0",
+    }}
+      onMouseEnter={() => setHov(true)} 
+      onMouseLeave={() => setHov(false)}>
+      {children}
+    </a>
+  );
+}
+
 // ── Main export ────────────────────────────────────────────────
 export default function MedPrepAI() {
   const [activeTab, setActiveTab] = useState("fcps");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Nav click sets active tab then scrolls to section
   const handleNavExam = (tabId) => {
     setActiveTab(tabId);
+    setMobileMenuOpen(false);
     setTimeout(() => {
       document.getElementById("programs")?.scrollIntoView({ behavior: "smooth" });
     }, 50);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -433,7 +527,55 @@ export default function MedPrepAI() {
         body { font-family: 'Inter', sans-serif; background: ${T.paper}; color: ${T.ink}; -webkit-font-smoothing: antialiased; }
         h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 600; letter-spacing: -0.01em; color: ${T.ink}; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
-        @keyframes draw { 0% { stroke-dashoffset: 600; } 60% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+        
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile-toggle { display: flex !important; }
+          .hero-title { font-size: 2.2rem !important; }
+          .hero-subtitle { font-size: 1rem !important; }
+          .section-title { font-size: 1.8rem !important; }
+          .grid-2col { grid-template-columns: 1fr !important; }
+          .grid-3col { grid-template-columns: 1fr !important; }
+          .feature-strip { flex-direction: column !important; }
+          .feature-item { border-right: none !important; border-bottom: 1px solid ${T.line} !important; }
+          .feature-item:last-child { border-bottom: none !important; }
+          .program-tabs-hero { grid-template-columns: 1fr !important; padding: 32px 24px !important; gap: 32px !important; }
+          .program-stats { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+          .stat-item { padding: 16px !important; }
+          .stat-number { font-size: 1.6rem !important; }
+          .pillar-grid { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
+          .pillar-card { padding: 24px 20px !important; }
+          .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .hero-stats { flex-wrap: wrap !important; }
+          .hero-stat { flex: 1 1 45% !important; border-right: none !important; border-bottom: 1px solid ${T.line} !important; }
+          .hero-stat:last-child { border-bottom: none !important; }
+          .cta-buttons { flex-direction: column !important; align-items: center !important; width: 100% !important; }
+          .cta-buttons .btn { width: 100% !important; max-width: 300px !important; }
+          .tab-switcher { width: 100% !important; }
+          .tab-switcher > div { flex-direction: column !important; width: 100% !important; }
+          .tab-switcher button { border-right: none !important; border-bottom: 1px solid ${T.line} !important; }
+          .tab-switcher button:last-child { border-bottom: none !important; }
+          .faq-item { padding: 16px 0 !important; }
+          .faq-question { font-size: 0.95rem !important; }
+          .section-padding { padding: 60px 20px !important; }
+          .hero-padding { padding: 60px 0 40px !important; }
+          .hero-stat-number { font-size: 1.4rem !important; }
+        }
+        
+        @media (max-width: 480px) {
+          .hero-title { font-size: 1.8rem !important; }
+          .section-title { font-size: 1.5rem !important; }
+          .pillar-grid { grid-template-columns: 1fr !important; }
+          .program-stats { grid-template-columns: 1fr 1fr !important; }
+          .hero-stat { flex: 1 1 100% !important; }
+          .stat-number { font-size: 1.4rem !important; }
+        }
+        
+        @media (min-width: 769px) {
+          .nav-mobile-toggle { display: none !important; }
+          .nav-desktop { display: flex !important; }
+          .mobile-menu-overlay { display: none !important; }
+        }
       `}</style>
 
       {/* ── NAVBAR ── */}
@@ -442,9 +584,10 @@ export default function MedPrepAI() {
           <a href="#home" style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: "1.15rem", color: T.ink, textDecoration: "none" }}>
             <LogoBadge size={32} /> MedPrepAI
           </a>
-          <div style={{ display: "flex", gap: 28, fontSize: "0.92rem", alignItems: "center" }}>
+          
+          {/* Desktop Navigation */}
+          <div className="nav-desktop" style={{ display: "flex", gap: 28, fontSize: "0.92rem", alignItems: "center" }}>
             <NavLink href="#home">Home</NavLink>
-            {/* FCPS-1 and JCAT as direct nav links that set the tab */}
             <button onClick={() => handleNavExam("fcps")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "0.92rem", color: T.slate, padding: 0 }}
               onMouseEnter={e => e.target.style.color = T.ink}
               onMouseLeave={e => e.target.style.color = T.slate}>
@@ -458,15 +601,81 @@ export default function MedPrepAI() {
             <NavLink href="#how-it-works">How It Works</NavLink>
             <NavLink href="#faq">FAQ</NavLink>
           </div>
-          <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+
+          {/* Desktop Right Buttons */}
+          <div className="nav-desktop" style={{ display: "flex", gap: 14, alignItems: "center" }}>
             <a href="#" style={{ fontSize: "0.92rem", color: T.slate, textDecoration: "none" }}>Log In</a>
             <Btn variant="primary">Start Free Trial</Btn>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="nav-mobile-toggle" 
+            onClick={toggleMobileMenu}
+            style={{ 
+              background: "none", 
+              border: "none", 
+              cursor: "pointer", 
+              color: T.ink,
+              display: "none",
+              padding: "4px",
+            }}>
+            {mobileMenuOpen ? Icon.close : Icon.menu}
+          </button>
         </nav>
+
+        {/* Mobile Menu Overlay */}
+        {mobileMenuOpen && (
+          <div className="mobile-menu-overlay" style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            background: "rgba(2,6,23,0.98)",
+            backdropFilter: "blur(10px)",
+            borderBottom: `1px solid ${T.line}`,
+            padding: "20px 32px",
+            display: "none",
+          }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <NavLink href="#home" onClick={closeMobileMenu}>Home</NavLink>
+              <button onClick={() => handleNavExam("fcps")} style={{ 
+                background: "none", 
+                border: "none", 
+                cursor: "pointer", 
+                fontFamily: "inherit", 
+                fontSize: "0.92rem", 
+                color: T.slate, 
+                padding: 0, 
+                textAlign: "left" 
+              }}>
+                FCPS-1
+              </button>
+              <button onClick={() => handleNavExam("jcat")} style={{ 
+                background: "none", 
+                border: "none", 
+                cursor: "pointer", 
+                fontFamily: "inherit", 
+                fontSize: "0.92rem", 
+                color: T.slate, 
+                padding: 0, 
+                textAlign: "left" 
+              }}>
+                JCAT (MDMS)
+              </button>
+              <NavLink href="#how-it-works" onClick={closeMobileMenu}>How It Works</NavLink>
+              <NavLink href="#faq" onClick={closeMobileMenu}>FAQ</NavLink>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 8 }}>
+                <a href="#" style={{ fontSize: "0.92rem", color: T.slate, textDecoration: "none" }}>Log In</a>
+                <Btn variant="primary" fullWidth>Start Free Trial</Btn>
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* ── HERO — no vitals card, full-width centred layout ── */}
-      <section id="home" style={{ padding: "100px 0 80px", textAlign: "center" }}>
+      {/* ── HERO ── */}
+      <section id="home" className="hero-padding" style={{ padding: "100px 0 80px", textAlign: "center" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px" }}>
           <span style={{
             display: "inline-flex", alignItems: "center", gap: 8,
@@ -477,26 +686,26 @@ export default function MedPrepAI() {
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.gold, display: "inline-block" }} />
             Postgraduate Medical Examination Preparation
           </span>
-          <h1 style={{ fontFamily: "Fraunces, serif", fontSize: "3.6rem", lineHeight: 1.06, marginBottom: 24, maxWidth: 760, margin: "0 auto 24px" }}>
+          <h1 className="hero-title" style={{ fontFamily: "Fraunces, serif", fontSize: "3.6rem", lineHeight: 1.06, marginBottom: 24, maxWidth: 760, margin: "0 auto 24px" }}>
             Transforming Dedication into Clinical Excellence
           </h1>
-          <p style={{ fontSize: "1.15rem", color: T.slate, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
+          <p className="hero-subtitle" style={{ fontSize: "1.15rem", color: T.slate, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
             A comprehensive preparation platform combining scenario-based question banks, every-option explanations, and advanced performance analytics — designed for FCPS-1 and JCAT (MDMS) candidates across Pakistan.
           </p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 60 }}>
+          <div className="cta-buttons" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 60 }}>
             <Btn variant="primary" size="lg" onClick={() => handleNavExam("fcps")}>Begin FCPS-1 Preparation</Btn>
             <Btn variant="ghost" size="lg" onClick={() => handleNavExam("jcat")}>Begin JCAT (MDMS) Preparation</Btn>
           </div>
-          {/* Key stats row under hero */}
-          <div style={{ display: "flex", gap: 0, justifyContent: "center", border: `1px solid ${T.line}`, borderRadius: T.radius, overflow: "hidden", maxWidth: 760, margin: "0 auto" }}>
+          
+          <div className="hero-stats" style={{ display: "flex", gap: 0, justifyContent: "center", border: `1px solid ${T.line}`, borderRadius: T.radius, overflow: "hidden", maxWidth: 760, margin: "0 auto" }}>
             {[
               { num: "6,000+", label: "Examination-Level Questions" },
               { num: "100%", label: "Options Explained" },
               { num: "2", label: "Examination Tracks" },
               { num: "Live", label: "Performance Analytics" },
             ].map(({ num, label }, i) => (
-              <div key={label} style={{ flex: 1, padding: "24px 20px", background: T.surface, borderRight: i < 3 ? `1px solid ${T.line}` : "none", textAlign: "center" }}>
-                <div style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "1.6rem", fontWeight: 500, color: T.teal, lineHeight: 1 }}>{num}</div>
+              <div key={label} className="hero-stat" style={{ flex: 1, padding: "24px 20px", background: T.surface, borderRight: i < 3 ? `1px solid ${T.line}` : "none", textAlign: "center" }}>
+                <div className="hero-stat-number" style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "1.6rem", fontWeight: 500, color: T.teal, lineHeight: 1 }}>{num}</div>
                 <div style={{ fontSize: "0.8rem", color: T.slate, marginTop: 6 }}>{label}</div>
               </div>
             ))}
@@ -504,10 +713,10 @@ export default function MedPrepAI() {
         </div>
       </section>
 
-      {/* ── VISUAL PANEL 1 — image right, text left ── */}
+      {/* ── VISUAL PANEL 1 ── */}
       <section>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px 80px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+          <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
             <div>
               <SectionEyebrow>Real Clinical Encounters</SectionEyebrow>
               <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
@@ -534,12 +743,12 @@ export default function MedPrepAI() {
         </div>
       </div>
 
-      {/* ── WHAT SETS US APART — icon cards with hover ── */}
+      {/* ── WHAT SETS US APART ── */}
       <section id="why-us" style={{ background: T.surface, scrollMarginTop: 80 }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <SectionEyebrow center>Our Distinction</SectionEyebrow>
-            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 640 }}>
+            <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 640 }}>
               What Sets <span style={{ color: T.teal }}>MedPrepAI</span> Apart
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
@@ -547,14 +756,13 @@ export default function MedPrepAI() {
             </p>
           </div>
 
-          {/* Icon feature cards with hover — replaces plain bordered cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, marginBottom: 40 }}>
+          <div className="pillar-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, marginBottom: 40 }}>
             {PILLAR_CARDS.map(({ iconPaths, accent, accentBg, title, body }) => (
               <PillarCard key={title} iconPaths={iconPaths} accent={accent} accentBg={accentBg} title={title} body={body} />
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+          <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
             <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
               <img src={teamCollabImg} alt="Medical team reviewing AI-driven clinical insights together" style={{ width: "100%", display: "block", maxHeight: 420, objectFit: "cover" }} />
             </div>
@@ -574,12 +782,12 @@ export default function MedPrepAI() {
       {/* ── PROGRAM TABS ── */}
       <ProgramTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* ── SEE IT IN ACTION — real exam-interface screenshot ── */}
+      {/* ── SEE IT IN ACTION ── */}
       <section>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <SectionEyebrow center>See It In Action</SectionEyebrow>
-            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>
+            <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>
               Every Option, <span style={{ color: T.teal }}>Explained In Full</span>
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
@@ -597,12 +805,12 @@ export default function MedPrepAI() {
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <SectionEyebrow center>Preparation Workflow</SectionEyebrow>
-            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px" }}>How <span style={{ color: T.teal }}>MedPrepAI</span> Works</h2>
+            <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px" }}>How <span style={{ color: T.teal }}>MedPrepAI</span> Works</h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 500, margin: "0 auto" }}>
               A clear, structured path from your first login to confident examination performance.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }}>
+          <div className="grid-4col" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }}>
             {[
               { n: "01", title: "Create Your Account", body: "Register and select your examination track — FCPS-1 or JCAT (MDMS) — to begin your personalised preparation." },
               { n: "02", title: "Practice Questions", body: "Work through scenario-based MCQs with every option explained at real examination difficulty." },
@@ -626,14 +834,14 @@ export default function MedPrepAI() {
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <SectionEyebrow center>Testimonials</SectionEyebrow>
-            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", lineHeight: 1.18, margin: "0 auto 14px" }}>
+            <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", lineHeight: 1.18, margin: "0 auto 14px" }}>
               Trusted by FCPS and JCAT Candidates
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 480, margin: "0 auto" }}>
               Postgraduate candidates across Pakistan rely on MedPrepAI to prepare with confidence and precision.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+          <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {[
               { text: "The every-option-explained approach fundamentally changed how I study. I now understand why incorrect answers are wrong, not merely which answer to select.", name: "FCPS-1 Candidate", role: "Medicine, Batch 2025" },
               { text: "The scenario-based question bank closely replicates the actual JCAT examination experience. My confidence increased significantly after just a few weeks of structured practice.", name: "JCAT (MDMS) Candidate", role: "Medicine & Allied, 2025" },
@@ -648,13 +856,13 @@ export default function MedPrepAI() {
       {/* ── FINAL CTA ── */}
       <section style={{ background: T.surface, textAlign: "center" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
-          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", maxWidth: 640, margin: "0 auto 16px" }}>
+          <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", maxWidth: 640, margin: "0 auto 16px" }}>
             Ready to Begin Your Examination Preparation?
           </h2>
           <p style={{ color: T.slate, maxWidth: 500, margin: "0 auto 36px", fontSize: "1.02rem", lineHeight: 1.7 }}>
             Join candidates across Pakistan who are preparing for FCPS-1 and JCAT (MDMS) with MedPrepAI — where every option is explained.
           </p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="cta-buttons" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <Btn variant="primary" size="lg" onClick={() => handleNavExam("fcps")}>Begin FCPS-1 Preparation</Btn>
             <Btn variant="ghost" size="lg" onClick={() => handleNavExam("jcat")}>Begin JCAT (MDMS) Preparation</Btn>
           </div>
@@ -667,7 +875,7 @@ export default function MedPrepAI() {
       {/* ── FOOTER ── */}
       <footer style={{ background: T.paper, color: "#C9D4CF", padding: "64px 0 32px", borderTop: `1px solid ${T.line}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+          <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Fraunces, serif", fontWeight: 600, color: "#fff", fontSize: "1.1rem", marginBottom: 14 }}>
                 <LogoBadge size={28} />
@@ -705,72 +913,5 @@ export default function MedPrepAI() {
         </div>
       </footer>
     </>
-  );
-}
-
-// ── Small helper components ────────────────────────────────────
-function NavLink({ href, children }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <a href={href} style={{ color: hov ? T.ink : T.slate, textDecoration: "none", fontSize: "0.92rem", transition: "color .15s" }}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{children}</a>
-  );
-}
-
-function PillarCard({ iconPaths, accent, accentBg, title, body }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        background: T.surface,
-        border: `1px solid ${hov ? accent : T.line}`,
-        borderRadius: T.radius,
-        padding: "32px 28px",
-        cursor: "default",
-        transition: "border-color .2s, box-shadow .2s, transform .2s",
-        transform: hov ? "translateY(-4px)" : "none",
-        boxShadow: hov ? `0 8px 24px rgba(0,0,0,0.35)` : "none",
-      }}>
-      <div style={{
-        width: 48, height: 48, borderRadius: 10,
-        background: hov ? accentBg : "rgba(255,255,255,0.06)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        marginBottom: 18, transition: "background .2s",
-      }}>
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
-          stroke={hov ? accent : T.slate} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          {iconPaths}
-        </svg>
-      </div>
-      <div style={{ width: hov ? 48 : 32, height: 3, background: hov ? accent : T.line, borderRadius: 2, marginBottom: 14, transition: "background .2s, width .2s" }} />
-      <h3 style={{ fontFamily: "Fraunces, serif", fontSize: "1.08rem", fontWeight: 600, marginBottom: 10, color: T.ink }}>{title}</h3>
-      <p style={{ fontSize: "0.9rem", color: T.slate, lineHeight: 1.65 }}>{body}</p>
-    </div>
-  );
-}
-
-function TestimonialCard({ text, name, role }) {
-  const [hov, setHov] = useState(false);
-  return (
-    <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{
-        background: hov ? "#101A2E" : T.surface,
-        border: `1px solid ${hov ? T.teal : T.line}`,
-        borderRadius: T.radius, padding: "30px 28px",
-        display: "flex", flexDirection: "column", gap: 18,
-        transition: "all .2s",
-        transform: hov ? "translateY(-3px)" : "none",
-        boxShadow: hov ? `0 6px 20px rgba(0,0,0,0.4)` : "none",
-        cursor: "default",
-      }}>
-      <div style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", color: T.teal, lineHeight: 1 }}>"</div>
-      <p style={{ fontSize: "0.98rem", color: T.ink, flex: 1, lineHeight: 1.7 }}>{text}</p>
-      <div style={{ borderTop: `1px solid ${T.line}`, paddingTop: 14 }}>
-        <div style={{ fontWeight: 600, fontSize: "0.92rem" }}>{name}</div>
-        <div style={{ fontSize: "0.82rem", color: T.slate, marginTop: 2 }}>{role}</div>
-      </div>
-    </div>
   );
 }

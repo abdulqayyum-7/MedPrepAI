@@ -531,6 +531,7 @@ export default function MedPrepAI() {
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
           .nav-mobile-toggle { display: flex !important; }
+          .mobile-menu-overlay { display: block !important; }
           .hero-title { font-size: 2.2rem !important; }
           .hero-subtitle { font-size: 1rem !important; }
           .section-title { font-size: 1.8rem !important; }
@@ -624,7 +625,7 @@ export default function MedPrepAI() {
           </button>
         </nav>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay - FIXED: Now always visible on mobile when open */}
         {mobileMenuOpen && (
           <div className="mobile-menu-overlay" style={{
             position: "absolute",
@@ -635,7 +636,7 @@ export default function MedPrepAI() {
             backdropFilter: "blur(10px)",
             borderBottom: `1px solid ${T.line}`,
             padding: "20px 32px",
-            display: "none",
+            display: "block",
           }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <NavLink href="#home" onClick={closeMobileMenu}>Home</NavLink>

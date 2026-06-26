@@ -627,7 +627,7 @@ export default function MedPrepAI() {
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <SectionEyebrow center>Testimonials</SectionEyebrow>
             <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", lineHeight: 1.18, margin: "0 auto 14px" }}>
-              Trusted by FCPS & JCAT Candidates
+              Trusted by FCPS and JCAT Candidates
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 480, margin: "0 auto" }}>
               Postgraduate candidates across Pakistan rely on MedPrepAI to prepare with confidence and precision.

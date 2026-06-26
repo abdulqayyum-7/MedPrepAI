@@ -1,25 +1,38 @@
 import { useState, useEffect, useRef } from "react";
+import examInterfaceImg from "./assets/exam-interface-screenshot.jpeg";
+import teamCollabImg from "./assets/team-ai-collaboration.png";
+import facultyAnalyticsImg from "./assets/faculty-analytics-dashboard.png";
+import doctorPatientImg from "./assets/doctor-patient-screen.png";
+import logoIcon from "./assets/logo-icon.png";
 
-// ── Design tokens ──────────────────────────────────────────────
+// ── Design tokens (dark theme) ──────────────────────────────────
 const T = {
-  ink: "#0E1A17",
-  paper: "#F7F5EF",
-  surface: "#FAFAF8",
-  teal: "#2F6F5E",
-  tealDeep: "#1D4A3D",
-  gold: "#E8C468",
-  slate: "#6B7280",
-  line: "#DEDACE",
+  ink: "#FFFFFF",        // primary text (was near-black, now white on dark bg)
+  paper: "#020617",       // page background (was cream, now near-black navy)
+  surface: "#0B1220",     // alternating section background (slightly lighter than page bg)
+  teal: "#059669",        // primary actions / accent (sampled from CTA button)
+  tealDeep: "#047857",    // hover state for primary actions
+  gold: "#10B981",        // secondary accent (sampled from active carousel dot)
+  slate: "#99A2B0",       // muted/body text (sampled from subtext)
+  line: "#283246",        // borders/dividers, visible against dark bg
   radius: "14px",
 };
 
+// ── Logo badge — wraps the uploaded stethoscope artwork in a rounded badge ──
+function LogoBadge({ size = 34 }) {
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: size * 0.26,
+      background: "#059669", display: "flex", alignItems: "center", justifyContent: "center",
+      flexShrink: 0,
+    }}>
+      <img src={logoIcon} alt="MedPrepAI" style={{ width: "62%", height: "62%", objectFit: "contain" }} />
+    </div>
+  );
+}
+
 // ── SVG Icons ──────────────────────────────────────────────────
 const Icon = {
-  logo: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-      <path d="M2 12h4l2-7 4 14 3-9 2 6h5" stroke={T.teal} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
   layers: (
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke={T.teal} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
@@ -91,10 +104,10 @@ function Btn({ variant = "primary", size = "md", children, onClick, href, style 
       boxShadow: hovered ? `0 4px 16px rgba(47,111,94,0.3)` : "none",
     },
     gold: {
-      background: hovered ? "#d4af52" : T.gold,
-      color: T.ink,
+      background: hovered ? "#0EA371" : T.gold,
+      color: "#06190F",
       transform: hovered ? "translateY(-1px)" : "none",
-      boxShadow: hovered ? `0 4px 16px rgba(232,196,104,0.35)` : "none",
+      boxShadow: hovered ? `0 4px 16px rgba(16,185,129,0.35)` : "none",
     },
     ghost: {
       background: "transparent",
@@ -133,13 +146,13 @@ function FeatItem({ icon, title, desc, last }) {
       onMouseLeave={() => setHov(false)}
       style={{
         padding: "26px 22px",
-        background: hov ? "#EEF5F1" : T.surface,
+        background: hov ? "rgba(5,150,105,0.1)" : T.surface,
         borderRight: last ? "none" : `1px solid ${T.line}`,
         display: "flex", flexDirection: "column", gap: 10, flex: 1, minWidth: 0,
         transition: "background .2s",
         cursor: "default",
       }}>
-      <div style={{ width: 40, height: 40, borderRadius: 8, background: hov ? "#D4EAE1" : "#E7EFEA", display: "flex", alignItems: "center", justifyContent: "center", transition: "background .2s" }}>{icon}</div>
+      <div style={{ width: 40, height: 40, borderRadius: 8, background: hov ? "rgba(16,185,129,0.18)" : "rgba(16,185,129,0.1)", display: "flex", alignItems: "center", justifyContent: "center", transition: "background .2s" }}>{icon}</div>
       <h4 style={{ fontSize: "0.93rem", fontWeight: 600, color: T.ink, margin: 0 }}>{title}</h4>
       <p style={{ fontSize: "0.84rem", color: T.slate, lineHeight: 1.55, margin: 0 }}>{desc}</p>
     </div>
@@ -188,28 +201,28 @@ const PILLAR_CARDS = [
   {
     iconPaths: <><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></>,
     accent: T.teal,
-    accentBg: "#E7EFEA",
+    accentBg: "rgba(5,150,105,0.16)",
     title: "Structured & Exam-Oriented Preparation",
     body: "Our question bank is designed to reflect the precise difficulty and format of both FCPS-1 and JCAT examinations, ensuring that every practice session closely mirrors actual exam conditions.",
   },
   {
     iconPaths: <><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></>,
-    accent: "#C17E3A",
-    accentBg: "#FDF0E2",
+    accent: "#E0A75E",
+    accentBg: "rgba(224,167,94,0.16)",
     title: "Every Answer Option Explained",
     body: "Each MCQ includes a detailed explanation for every option — not only the correct answer. This approach builds comprehensive conceptual understanding rather than surface-level answer memorisation.",
   },
   {
     iconPaths: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></>,
-    accent: "#3A7EC1",
-    accentBg: "#E2EEF8",
+    accent: "#5B9FE0",
+    accentBg: "rgba(91,159,224,0.16)",
     title: "Clinical Reasoning at the Core",
     body: "Scenario-based questions are crafted to develop the clinical thinking required in both examinations and real-world practice, bridging the gap between academic knowledge and patient care.",
   },
   {
     iconPaths: <><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></>,
-    accent: "#7E3AC1",
-    accentBg: "#F0E8FA",
+    accent: "#A571E0",
+    accentBg: "rgba(165,113,224,0.16)",
     title: "Intelligent Performance Analytics",
     body: "Live dashboards provide subject-wise breakdowns, time-per-question data, peer comparisons, and improvement trends — giving you a precise view of where to focus your revision.",
   },
@@ -273,12 +286,12 @@ function ProgramTabs({ activeTab, setActiveTab }) {
         </div>
 
         {/* Dark hero block */}
-        <div style={{ background: T.ink, borderRadius: T.radius, padding: "64px 56px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+        <div style={{ background: T.paper, border: `1px solid ${T.line}`, borderRadius: T.radius, padding: "64px 56px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
           <div>
             <span style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               fontFamily: "IBM Plex Mono, monospace", fontSize: "0.72rem", letterSpacing: "0.04em",
-              color: T.gold, background: "rgba(232,196,104,0.12)", border: "1px solid rgba(232,196,104,0.3)",
+              color: T.gold, background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.3)",
               padding: "6px 14px", borderRadius: 100, marginBottom: 20,
             }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.gold, animation: "blink 1.6s infinite" }} />
@@ -314,7 +327,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
           </div>
           <div style={{
             border: `1px solid ${T.line}`, borderRadius: T.radius, overflow: "hidden",
-            display: "flex", background: "#fff", boxShadow: "0 2px 12px rgba(14,26,23,0.05)",
+            display: "flex", background: T.surface, boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
           }}>
             {FEATURES.map((f, i) => (
               <FeatItem
@@ -325,6 +338,22 @@ function ProgramTabs({ activeTab, setActiveTab }) {
                 last={i === FEATURES.length - 1}
               />
             ))}
+          </div>
+        </div>
+
+        {/* Analytics visual — supports the Performance Analytics pillar above */}
+        <div style={{ marginTop: 56, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+          <div>
+            <SectionEyebrow>Performance, Visualised</SectionEyebrow>
+            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: "1.8rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
+              See Exactly Where Your <span style={{ color: T.teal }}>Preparation Stands</span>
+            </h3>
+            <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
+              Subject-wise breakdowns, time-per-question data, and trend lines turn raw scores into a clear revision plan — built on the same analytics faculty use to track cohort progress.
+            </p>
+          </div>
+          <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
+            <img src={facultyAnalyticsImg} alt="Faculty reviewing student performance analytics on a dashboard" style={{ width: "100%", display: "block", maxHeight: 420, objectFit: "cover" }} />
           </div>
         </div>
 
@@ -408,10 +437,10 @@ export default function MedPrepAI() {
       `}</style>
 
       {/* ── NAVBAR ── */}
-      <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(247,245,239,0.95)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${T.line}` }}>
+      <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(2,6,23,0.92)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${T.line}` }}>
         <nav style={{ display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: 1180, margin: "0 auto", padding: "18px 32px" }}>
           <a href="#home" style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: "1.15rem", color: T.ink, textDecoration: "none" }}>
-            {Icon.logo} MedPrepAI
+            <LogoBadge size={32} /> MedPrepAI
           </a>
           <div style={{ display: "flex", gap: 28, fontSize: "0.92rem", alignItems: "center" }}>
             <NavLink href="#home">Home</NavLink>
@@ -442,10 +471,10 @@ export default function MedPrepAI() {
           <span style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             fontFamily: "IBM Plex Mono, monospace", fontSize: "0.78rem", letterSpacing: "0.04em",
-            color: T.tealDeep, background: "#E7EFEA", border: "1px solid #CFE0D6",
+            color: T.gold, background: "rgba(16,185,129,0.08)", border: `1px solid ${T.teal}`,
             padding: "6px 14px", borderRadius: 100, marginBottom: 28,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.teal, display: "inline-block" }} />
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.gold, display: "inline-block" }} />
             Postgraduate Medical Examination Preparation
           </span>
           <h1 style={{ fontFamily: "Fraunces, serif", fontSize: "3.6rem", lineHeight: 1.06, marginBottom: 24, maxWidth: 760, margin: "0 auto 24px" }}>
@@ -475,6 +504,26 @@ export default function MedPrepAI() {
         </div>
       </section>
 
+      {/* ── VISUAL PANEL 1 — image right, text left ── */}
+      <section>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px 80px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+            <div>
+              <SectionEyebrow>Real Clinical Encounters</SectionEyebrow>
+              <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
+                Practice with <span style={{ color: T.teal }}>Virtual Patients</span>, Not Just Flashcards
+              </h2>
+              <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
+                Step into a simulated consultation, work through history-taking and examination, and receive feedback that mirrors what a real attending would expect — bridging the gap between exam preparation and clinical confidence.
+              </p>
+            </div>
+            <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
+              <img src={doctorPatientImg} alt="Clinician reviewing a virtual patient encounter on screen" style={{ width: "100%", display: "block", maxHeight: 420, objectFit: "cover" }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── MISSION STRIP ── */}
       <div style={{ borderTop: `1px solid ${T.line}`, borderBottom: `1px solid ${T.line}`, padding: "44px 0" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
@@ -499,16 +548,49 @@ export default function MedPrepAI() {
           </div>
 
           {/* Icon feature cards with hover — replaces plain bordered cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, marginBottom: 40 }}>
             {PILLAR_CARDS.map(({ iconPaths, accent, accentBg, title, body }) => (
               <PillarCard key={title} iconPaths={iconPaths} accent={accent} accentBg={accentBg} title={title} body={body} />
             ))}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+            <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
+              <img src={teamCollabImg} alt="Medical team reviewing AI-driven clinical insights together" style={{ width: "100%", display: "block", maxHeight: 420, objectFit: "cover" }} />
+            </div>
+            <div>
+              <SectionEyebrow>Collaborative By Design</SectionEyebrow>
+              <h3 style={{ fontFamily: "Fraunces, serif", fontSize: "1.8rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
+                Faculty and Candidates, <span style={{ color: T.teal }}>Working From the Same Data</span>
+              </h3>
+              <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
+                Every explanation, score, and trend is visible to both sides — so coaching conversations are grounded in the same evidence candidates see when they review their own performance.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── PROGRAM TABS ── */}
       <ProgramTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      {/* ── SEE IT IN ACTION — real exam-interface screenshot ── */}
+      <section>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <SectionEyebrow center>See It In Action</SectionEyebrow>
+            <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>
+              Every Option, <span style={{ color: T.teal }}>Explained In Full</span>
+            </h2>
+            <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
+              A real question from the bank — keywords highlighted in the stem, and a full breakdown of why each option is correct or incorrect.
+            </p>
+          </div>
+          <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}`, boxShadow: "0 8px 28px rgba(14,26,23,0.08)" }}>
+            <img src={examInterfaceImg} alt="Exam-style question interface with full answer breakdown" style={{ width: "100%", display: "block" }} />
+          </div>
+        </div>
+      </section>
 
       {/* ── HOW IT WORKS ── */}
       <section id="how-it-works" style={{ background: T.surface, scrollMarginTop: 80 }}>
@@ -545,7 +627,7 @@ export default function MedPrepAI() {
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <SectionEyebrow center>Testimonials</SectionEyebrow>
             <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", lineHeight: 1.18, margin: "0 auto 14px" }}>
-              Trusted by FCPS and JCAT Candidates
+              Trusted by FCPS & JCAT Candidates
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 480, margin: "0 auto" }}>
               Postgraduate candidates across Pakistan rely on MedPrepAI to prepare with confidence and precision.
@@ -583,12 +665,12 @@ export default function MedPrepAI() {
       <FAQ />
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: T.ink, color: "#C9D4CF", padding: "64px 0 32px" }}>
+      <footer style={{ background: T.paper, color: "#C9D4CF", padding: "64px 0 32px", borderTop: `1px solid ${T.line}` }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "Fraunces, serif", fontWeight: 600, color: "#fff", fontSize: "1.1rem", marginBottom: 14 }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 12h4l2-7 4 14 3-9 2 6h5" stroke={T.gold} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <LogoBadge size={28} />
                 MedPrepAI
               </div>
               <p style={{ fontSize: "0.9rem", maxWidth: 340, color: "#9CB8AE", lineHeight: 1.7 }}>
@@ -642,18 +724,18 @@ function PillarCard({ iconPaths, accent, accentBg, title, body }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        background: "#fff",
+        background: T.surface,
         border: `1px solid ${hov ? accent : T.line}`,
         borderRadius: T.radius,
         padding: "32px 28px",
         cursor: "default",
         transition: "border-color .2s, box-shadow .2s, transform .2s",
         transform: hov ? "translateY(-4px)" : "none",
-        boxShadow: hov ? `0 8px 24px rgba(0,0,0,0.08)` : "none",
+        boxShadow: hov ? `0 8px 24px rgba(0,0,0,0.35)` : "none",
       }}>
       <div style={{
         width: 48, height: 48, borderRadius: 10,
-        background: hov ? accentBg : "#F3F4F6",
+        background: hov ? accentBg : "rgba(255,255,255,0.06)",
         display: "flex", alignItems: "center", justifyContent: "center",
         marginBottom: 18, transition: "background .2s",
       }}>
@@ -674,13 +756,13 @@ function TestimonialCard({ text, name, role }) {
   return (
     <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       style={{
-        background: hov ? "#fff" : T.surface,
+        background: hov ? "#101A2E" : T.surface,
         border: `1px solid ${hov ? T.teal : T.line}`,
         borderRadius: T.radius, padding: "30px 28px",
         display: "flex", flexDirection: "column", gap: 18,
         transition: "all .2s",
         transform: hov ? "translateY(-3px)" : "none",
-        boxShadow: hov ? `0 6px 20px rgba(0,0,0,0.07)` : "none",
+        boxShadow: hov ? `0 6px 20px rgba(0,0,0,0.4)` : "none",
         cursor: "default",
       }}>
       <div style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", color: T.teal, lineHeight: 1 }}>"</div>

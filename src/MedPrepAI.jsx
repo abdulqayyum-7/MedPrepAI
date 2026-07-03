@@ -264,7 +264,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
             Focused Preparation for <span style={{ color: T.teal }}>Every Examination</span>
           </h2>
           <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
-            Select your examination track below. Both are fully equipped with scenario-based question banks, comprehensive option-level explanations, and live performance analytics.
+            Pick your track. Everything else is already built in.
           </p>
         </div>
 
@@ -354,7 +354,7 @@ function ProgramTabs({ activeTab, setActiveTab }) {
               See Exactly Where Your <span style={{ color: T.teal }}>Preparation Stands</span>
             </h3>
             <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
-              Subject-wise breakdowns, time-per-question data, and trend lines turn raw scores into a clear revision plan — built on the same analytics faculty use to track cohort progress.
+              Scores turned into a clear plan for what to study next.
             </p>
           </div>
           <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
@@ -685,13 +685,13 @@ export default function MedPrepAI() {
             padding: "6px 14px", borderRadius: 100, marginBottom: 28,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.gold, display: "inline-block" }} />
-            Postgraduate Medical Examination Preparation
+            MedPrepAI
           </span>
           <h1 className="hero-title" style={{ fontFamily: "Fraunces, serif", fontSize: "3.6rem", lineHeight: 1.06, marginBottom: 24, maxWidth: 760, margin: "0 auto 24px" }}>
-            Transforming Dedication into Clinical Excellence
+            We Make Complex Stuff Easier to Understand
           </h1>
           <p className="hero-subtitle" style={{ fontSize: "1.15rem", color: T.slate, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
-            A comprehensive preparation platform combining scenario-based question banks, every-option explanations, and advanced performance analytics — designed for FCPS-1 and JCAT (MDMS) candidates across Pakistan.
+            Learning Tools Designed for High-Stakes Exams
           </p>
           <div className="cta-buttons" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 60 }}>
             <Btn variant="primary" size="lg" onClick={() => handleNavExam("fcps")}>Begin FCPS-1 Preparation</Btn>
@@ -721,10 +721,10 @@ export default function MedPrepAI() {
             <div>
               <SectionEyebrow>Real Clinical Encounters</SectionEyebrow>
               <h2 style={{ fontFamily: "Fraunces, serif", fontSize: "2rem", fontWeight: 700, lineHeight: 1.2, marginBottom: 16 }}>
-                Practice with <span style={{ color: T.teal }}>Virtual Patients</span>, Not Just Flashcards
+                Learn by <span style={{ color: T.teal }}>Doing</span>, Not Memorising
               </h2>
               <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
-                Step into a simulated consultation, work through history-taking and examination, and receive feedback that mirrors what a real attending would expect — bridging the gap between exam preparation and clinical confidence.
+                Real scenarios. Real feedback. Built to feel like practice, not a quiz.
               </p>
             </div>
             <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}` }}>
@@ -739,7 +739,7 @@ export default function MedPrepAI() {
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
           <span style={{ fontFamily: "IBM Plex Mono, monospace", fontSize: "0.8rem", fontWeight: 700, color: T.teal, letterSpacing: "0.06em", display: "block", marginBottom: 16 }}>OUR MISSION</span>
           <p style={{ fontSize: "1.08rem", fontWeight: 600, color: T.ink, maxWidth: 820, lineHeight: 1.8, margin: "0 auto" }}>
-            We believe that success extends far beyond passing an examination. Our mission is to develop competent, knowledgeable, and confident healthcare professionals through a strong foundation in medical sciences and clinical reasoning — building clinicians who are prepared not only for their examinations, but for the demands of patient care.
+            We build confidence, not just exam-takers.
           </p>
         </div>
       </div>
@@ -753,7 +753,7 @@ export default function MedPrepAI() {
               What Sets <span style={{ color: T.teal }}>MedPrepAI</span> Apart
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 560, margin: "0 auto" }}>
-              Every feature of MedPrepAI has been designed with a single purpose: to close the gap between examination performance and real clinical readiness.
+              Built to make the hard parts clear.
             </p>
           </div>
 
@@ -773,7 +773,7 @@ export default function MedPrepAI() {
                 Faculty and Candidates, <span style={{ color: T.teal }}>Working From the Same Data</span>
               </h3>
               <p style={{ color: T.slate, fontSize: "1.02rem", lineHeight: 1.75 }}>
-                Every explanation, score, and trend is visible to both sides — so coaching conversations are grounded in the same evidence candidates see when they review their own performance.
+                One shared view of progress — for coaching that's grounded in real evidence.
               </p>
             </div>
           </div>
@@ -839,7 +839,7 @@ export default function MedPrepAI() {
               Trusted by FCPS and JCAT Candidates
             </h2>
             <p style={{ color: T.slate, fontSize: "1.02rem", maxWidth: 480, margin: "0 auto" }}>
-              Postgraduate candidates across Pakistan rely on MedPrepAI to prepare with confidence and precision.
+              Real feedback from people who used it.
             </p>
           </div>
           <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
@@ -858,10 +858,10 @@ export default function MedPrepAI() {
       <section style={{ background: T.surface, textAlign: "center" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
           <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.4rem", maxWidth: 640, margin: "0 auto 16px" }}>
-            Ready to Begin Your Examination Preparation?
+            Ready to Get Started?
           </h2>
           <p style={{ color: T.slate, maxWidth: 500, margin: "0 auto 36px", fontSize: "1.02rem", lineHeight: 1.7 }}>
-            Join candidates across Pakistan who are preparing for FCPS-1 and JCAT (MDMS) with MedPrepAI — where every option is explained.
+            Pick a track and start practicing today.
           </p>
           <div className="cta-buttons" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <Btn variant="primary" size="lg" onClick={() => handleNavExam("fcps")}>Begin FCPS-1 Preparation</Btn>

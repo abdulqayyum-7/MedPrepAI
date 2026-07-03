@@ -559,6 +559,7 @@ export default function MedPrepAI() {
           .faq-item { padding: 16px 0 !important; }
           .faq-question { font-size: 0.95rem !important; }
           .section-padding { padding: 60px 20px !important; }
+          .see-it-action-wrap { padding: 60px 16px !important; }
           .hero-padding { padding: 60px 0 40px !important; }
           .hero-stat-number { font-size: 1.4rem !important; }
         }
@@ -785,7 +786,7 @@ export default function MedPrepAI() {
 
       {/* ── SEE IT IN ACTION ── */}
       <section>
-        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "80px 32px" }}>
+        <div className="see-it-action-wrap" style={{ maxWidth: 1440, margin: "0 auto", padding: "80px 24px" }}>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <SectionEyebrow center>See It In Action</SectionEyebrow>
             <h2 className="section-title" style={{ fontFamily: "Fraunces, serif", fontSize: "2.2rem", fontWeight: 700, lineHeight: 1.18, margin: "0 auto 14px", maxWidth: 620 }}>

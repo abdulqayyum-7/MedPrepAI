@@ -563,9 +563,6 @@ export default function MedPrepAI() {
           .faq-question { font-size: 0.95rem !important; }
           .section-padding { padding: 60px 20px !important; }
           .see-it-action-wrap { padding: 60px 16px !important; }
-          .exam-img-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-          .exam-img { width: auto !important; min-width: 640px; max-width: none; }
-          .exam-img-hint { display: block !important; }
           .hero-padding { padding: 60px 0 40px !important; }
           .hero-stat-number { font-size: 1.4rem !important; }
         }
@@ -802,12 +799,9 @@ export default function MedPrepAI() {
               A real question from the bank — keywords highlighted in the stem, and a full breakdown of why each option is correct or incorrect.
             </p>
           </div>
-          <div className="exam-img-wrap" style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}`, boxShadow: "0 8px 28px rgba(14,26,23,0.08)" }}>
-            <img className="exam-img" src={examInterfaceImg} alt="Exam-style question interface with full answer breakdown" style={{ width: "100%", display: "block" }} />
+          <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}`, boxShadow: "0 8px 28px rgba(14,26,23,0.08)" }}>
+            <img src={examInterfaceImg} alt="Exam-style question interface with full answer breakdown" style={{ width: "100%", display: "block" }} />
           </div>
-          <p className="exam-img-hint" style={{ display: "none", textAlign: "center", color: T.slate, fontSize: "0.8rem", marginTop: 10 }}>
-            Scroll sideways to read the full question →
-          </p>
         </div>
       </section>
 

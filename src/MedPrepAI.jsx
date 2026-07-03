@@ -537,6 +537,9 @@ export default function MedPrepAI() {
           .section-title { font-size: 1.8rem !important; }
           .grid-2col { grid-template-columns: 1fr !important; }
           .grid-3col { grid-template-columns: 1fr !important; }
+          .grid-4col { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .step-item { border-right: none !important; padding: 0 0 24px !important; border-bottom: 1px dashed ${T.line} !important; }
+          .step-item:last-child { border-bottom: none !important; padding-bottom: 0 !important; }
           .feature-strip { flex-direction: column !important; }
           .feature-item { border-right: none !important; border-bottom: 1px solid ${T.line} !important; }
           .feature-item:last-child { border-bottom: none !important; }
@@ -560,6 +563,9 @@ export default function MedPrepAI() {
           .faq-question { font-size: 0.95rem !important; }
           .section-padding { padding: 60px 20px !important; }
           .see-it-action-wrap { padding: 60px 16px !important; }
+          .exam-img-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+          .exam-img { width: auto !important; min-width: 640px; max-width: none; }
+          .exam-img-hint { display: block !important; }
           .hero-padding { padding: 60px 0 40px !important; }
           .hero-stat-number { font-size: 1.4rem !important; }
         }
@@ -796,9 +802,12 @@ export default function MedPrepAI() {
               A real question from the bank — keywords highlighted in the stem, and a full breakdown of why each option is correct or incorrect.
             </p>
           </div>
-          <div style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}`, boxShadow: "0 8px 28px rgba(14,26,23,0.08)" }}>
-            <img src={examInterfaceImg} alt="Exam-style question interface with full answer breakdown" style={{ width: "100%", display: "block" }} />
+          <div className="exam-img-wrap" style={{ borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.line}`, boxShadow: "0 8px 28px rgba(14,26,23,0.08)" }}>
+            <img className="exam-img" src={examInterfaceImg} alt="Exam-style question interface with full answer breakdown" style={{ width: "100%", display: "block" }} />
           </div>
+          <p className="exam-img-hint" style={{ display: "none", textAlign: "center", color: T.slate, fontSize: "0.8rem", marginTop: 10 }}>
+            Scroll sideways to read the full question →
+          </p>
         </div>
       </section>
 
@@ -819,7 +828,7 @@ export default function MedPrepAI() {
               { n: "03", title: "Review Explanations", body: "Study the detailed reasoning behind every correct and incorrect answer to reinforce clinical understanding." },
               { n: "04", title: "Monitor Your Progress", body: "Use live dashboards and analytics to identify performance trends, weak areas, and measurable improvement." },
             ].map(({ n, title, body }, i) => (
-              <div key={n} style={{ padding: "0 26px 0 0", borderRight: i < 3 ? `1px dashed ${T.line}` : "none" }}>
+              <div key={n} className="step-item" style={{ padding: "0 26px 0 0", borderRight: i < 3 ? `1px dashed ${T.line}` : "none" }}>
                 <div style={{ fontFamily: "IBM Plex Mono, monospace", color: T.teal, fontSize: "0.85rem", display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
                   {n}<span style={{ height: 1, flex: 1, background: T.line }} />
                 </div>

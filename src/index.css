@@ -256,16 +256,19 @@ a { color: inherit; text-decoration: none; }
    QBANK CAROUSEL — center image "inward", sides "outward"
    ═══════════════════════════════════════════════════════ */
 .qbank-carousel { position: relative; display: flex; align-items: center; justify-content: center; padding: 0 60px; }
-.qbank-stage { position: relative; width: 100%; max-width: 720px; height: 400px; display: flex; align-items: center; justify-content: center; }
+.qbank-stage { position: relative; width: 100%; max-width: 720px; height: 250px; display: flex; align-items: center; justify-content: center; }
 .qbank-slide {
   position: absolute; border-radius: var(--radius); border: 1px solid var(--line);
   overflow: hidden; cursor: pointer; transition: all .4s ease; background: var(--surface);
 }
-.qbank-slide img { width: 100%; height: 100%; display: block; object-fit: contain; background: var(--surface); }
+/* real screenshots are ~2.4:1 (wide + short) — object-fit: cover guarantees the
+   frame is always filled edge-to-edge even if a future screenshot's exact ratio
+   varies slightly, instead of leaving the white letterbox bars seen before */
+.qbank-slide img { width: 100%; height: 100%; display: block; object-fit: cover; background: var(--surface); }
 .qbank-slide .zoomable { width: 100%; height: 100%; }
-.qbank-slide.is-center { width: 76%; aspect-ratio: 16/10; box-shadow: 0 18px 40px rgba(15,23,42,0.18); z-index: 3; cursor: default; transform: translateX(0) scale(1); opacity: 1; }
-.qbank-slide.is-prev { width: 58%; aspect-ratio: 16/10; transform: translateX(-58%) scale(0.86); opacity: 0.55; z-index: 2; }
-.qbank-slide.is-next { width: 58%; aspect-ratio: 16/10; transform: translateX(58%) scale(0.86); opacity: 0.55; z-index: 2; }
+.qbank-slide.is-center { width: 76%; aspect-ratio: 2.4/1; box-shadow: 0 18px 40px rgba(15,23,42,0.18); z-index: 3; cursor: default; transform: translateX(0) scale(1); opacity: 1; }
+.qbank-slide.is-prev { width: 58%; aspect-ratio: 2.4/1; transform: translateX(-58%) scale(0.86); opacity: 0.55; z-index: 2; }
+.qbank-slide.is-next { width: 58%; aspect-ratio: 2.4/1; transform: translateX(58%) scale(0.86); opacity: 0.55; z-index: 2; }
 .qbank-slide.is-hidden { opacity: 0; pointer-events: none; z-index: 1; }
 .qbank-arrow {
   position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%;
@@ -315,7 +318,7 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 640px) {
   .qbank-carousel { padding: 0 44px; }
-  .qbank-stage { height: 260px; }
+  .qbank-stage { height: 190px; }
   .qbank-slide.is-prev, .qbank-slide.is-next { width: 40%; opacity: 0.35; }
   .qbank-arrow { width: 34px; height: 34px; }
 
